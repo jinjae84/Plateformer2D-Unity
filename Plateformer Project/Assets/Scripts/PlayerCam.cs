@@ -6,7 +6,7 @@ public class PlayerCam : MonoBehaviour
 {
     // 벡터의 연산으로 구현
 
-    Vector2 offset;
+    Vector3 offset;
     public Transform playerTransform;
 
     // Start is called before the first frame update
