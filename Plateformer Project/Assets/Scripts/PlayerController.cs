@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,6 +25,22 @@ public class PlayerController : MonoBehaviour
     public float groundDistance = 2f;
     public LayerMask groundLayer;
 
+    [Header("Flip")]
+    public SpriteRenderer spriteRenderer;
+    private bool facingRight = true;
+    private int facingDirection = 1;
+    [Header("벽점프")]
+    public bool isTouchingWall;
+    public bool isWallSliding;
+    public bool isWallJumping;
+    public float wallJumpFoce = 8f;
+    public float wallSlideSpeed = 1f;
+    public float wallCheckDistance = 0.1f;
+    public LayerMask wallLayer;
+
+    public Animator animator;
+    private bool isMove;
+
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -33,26 +50,109 @@ public class PlayerController : MonoBehaviour
         // transform.position = new Vector2(transform.position.x, 10);
 
         // 현재 내 위치를 startTransform으로 변경
-        transform.position = startTransform.position;
+        InitializePlayerStatus();
 
+    }
+
+    void InitializePlayerStatus()
+    {
+        transform.position = startTransform.position;
+        rigidbody2D.velocity = Vector2.zero;
+        facingRight = true;
+        spriteRenderer.flipX = false;
     }
 
     // Update is called once per frame
     // 1 프레임 마다 호출된다. - 반복적으로 실행
     void Update()
     {
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundDistance, groundLayer);
+        // 함수 이름 앞에 마우스커서를 두고 Ctrl + R + R
+        HandleAnimation();
+        CollisionCheck();
+        HandleInput();
+        HandleFlip();
+        Move();
 
-        // 플레이어의 입력 값을 받아와야 합니다.
+        FallDownCheck();
 
-        moveInput = Input.GetAxis("Horizontal");
-        rigidbody2D.velocity = new Vector2(movespeed * moveInput, rigidbody2D.velocity.y);
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+    private void FallDownCheck()
+    {
+        // y의 높이가 특정 지점보다 낮을 때 낙사한 것으로 간주한다.
+        if(transform.position.y < -16)
         {
-            // 점프 : Y Position _ rigidbody Y velocity를 점프 파워만큼 올려주면된다.
-            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JumpForce);
+            InitializePlayerStatus();
         }
+    }
+
+    private void HandleAnimation()
+    {
+        // rigidbody.velocity : 현재 rigidbody 속도 = 0 움직이지 않는 상태, !=0 움직이고 있는 상태
+        isMove = rigidbody2D.velocity.x != 0;  //   1 != 0 ? true
+        animator.SetBool("isMove", isMove);
+        animator.SetBool("isGrounded", isGrounded);
+        // SetFloat 함수에 의해서 y최대일 때 1로 변환... y 최소일 때 -1로 변환
+        // 점프 키를 누르면, 순간적으로 y 높이 증가, 중력에 의해서 점점 y 속도 -까지 내려갈겁니다.
+        animator.SetFloat("yVelocity", rigidbody2D.velocity.y);
+    }
+
+    /// <summary>
+    /// 점프를 할 때 땅인지 아닌지 체크 하는지 기능 -> Collider Check
+    /// </summary>
+    private void CollisionCheck()
+    {
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundDistance, groundLayer);
+    }
+    /// <summary>
+    /// 플레이어의 입력 값을 받아와야 합니다. a,d 키보드 좌 우 키를 눌렀을 때 -1 ~ 1 반환하는 클래스
+    /// </summary>
+    private void HandleInput()
+    {
+        moveInput = Input.GetAxis("Horizontal");
+
+        JumpButton();
+    }
+
+    private void HandleFlip()
+    {
+        // 오른쪽 방향으로 바라보고 있을 때
+        if(facingRight && moveInput < 0)
+        {
+            Flip();
+        }
+        // 왼쪽 방향으로 바라보고 있을 때
+        else if(!facingRight && moveInput > 0)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        facingDirection = facingDirection * -1;
+        facingRight = !facingRight;
+        spriteRenderer.flipX = !facingRight;
+    }
+
+    private void JumpButton()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
+        {
+            Jump();
+        }
+    }
+    /// <summary>
+    /// 점프 : Y Position _ rigidbody Y velocity를 점프 파워만큼 올려주면된다.
+    /// </summary>
+    private void Jump()
+    {
+        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JumpForce);
+    }
+
+    private void Move()
+    {
+        rigidbody2D.velocity = new Vector2(movespeed * moveInput, rigidbody2D.velocity.y);
     }
 
     private void OnDrawGizmos()
