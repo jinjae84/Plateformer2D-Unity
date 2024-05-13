@@ -33,8 +33,8 @@ public class PlayerController : MonoBehaviour
     public bool isTouchingWall;
     public bool isWallSliding;
     public bool isWallJumping;
-    public float wallJumpFoce = 8f;
-    public float wallSlideSpeed = 1f;
+    public float wallJumpForce = 12f;
+    public float wallSlideSpeed = 2f;
     public float wallCheckDistance = 0.1f;
     public LayerMask wallLayer;
 
@@ -74,6 +74,9 @@ public class PlayerController : MonoBehaviour
         Move();
 
         FallDownCheck();
+        
+        CheckWallSliding();
+        CheckWallJump();
 
     }
 
@@ -150,6 +153,39 @@ public class PlayerController : MonoBehaviour
         rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JumpForce);
     }
 
+    private void CheckWallSliding()
+    {
+        isTouchingWall = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, wallLayer);
+        isWallSliding = isTouchingWall && !isGrounded && rigidbody2D.velocity.y < 0;
+
+        if (isWallSliding)
+        {
+            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -wallSlideSpeed);
+        }
+    }
+
+    private void CheckWallJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && (isWallSliding || isTouchingWall))
+        {
+            Vector2 jumpDirection = Vector2.up;
+            if (isWallSliding)
+            {
+                jumpDirection += Vector2.right * -facingDirection;
+            }
+            rigidbody2D.velocity = jumpDirection.normalized * JumpForce;
+
+            animator.SetTrigger("WallJump");
+        }
+    }
+
+
+
+    private void SetWallJumpingToFalse()
+    {
+        isWallJumping = false;
+    }
+
     private void Move()
     {
         rigidbody2D.velocity = new Vector2(movespeed * moveInput, rigidbody2D.velocity.y);
@@ -159,6 +195,7 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - groundDistance));
+
     }
 
 }

@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Wall
   - 
   - 
   - 
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Platform
     uniqueID: 3267187479
+    locked: 0
+  - name: Wall
+    uniqueID: 1608892557
     locked: 0
