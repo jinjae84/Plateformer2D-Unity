@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     public bool isWallJumping;
     public float wallJumpForce = 12f;
     public float wallSlideSpeed = 2f;
-    public float wallCheckDistance = 0.1f;
+    public float wallCheckDistance = 0.6f;
     public LayerMask wallLayer;
 
     public Animator animator;
@@ -136,6 +136,7 @@ public class PlayerController : MonoBehaviour
         facingDirection = facingDirection * -1;
         facingRight = !facingRight;
         spriteRenderer.flipX = !facingRight;
+        Debug.Log("바라보는 방향: " + facingDirection);
     }
 
     private void JumpButton()
@@ -161,7 +162,9 @@ public class PlayerController : MonoBehaviour
         if (isWallSliding)
         {
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -wallSlideSpeed);
+            animator.SetBool("WallJump", isWallSliding);
         }
+        
     }
 
     private void CheckWallJump()
@@ -171,11 +174,12 @@ public class PlayerController : MonoBehaviour
             Vector2 jumpDirection = Vector2.up;
             if (isWallSliding)
             {
-                jumpDirection += Vector2.right * -facingDirection;
+                jumpDirection = new Vector2(-facingDirection, 1).normalized;
             }
+            Debug.Log("점프방향: " + jumpDirection);
+            Debug.Log("방향확인: " + facingDirection);
             rigidbody2D.velocity = jumpDirection.normalized * JumpForce;
 
-            animator.SetTrigger("WallJump");
         }
     }
 
@@ -196,6 +200,10 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - groundDistance));
 
+        Gizmos.color = Color.blue;
+        Vector2 wallCheckStart = transform.position;
+        Vector2 wallCheckEnd = wallCheckStart + Vector2.right * facingDirection * wallCheckDistance;
+        Gizmos.DrawLine(wallCheckStart, wallCheckEnd);
     }
 
 }
