@@ -15,10 +15,17 @@ public class PlayerCam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //(GameObject) 가져와서 prefab으로 생성된 playerTranform위치를 이 데이터에 넣어줘야 됩니다.
+
         // transform = 카메라, 벡터의 합, 빼기 -> A - B : B에서 출발해서 A까지 이동하는 화살표
         offset = transform.position - playerTransform.position;
 
         fixedYPosition = transform.position.y;
+    }
+
+    public void Setoffset()
+    {
+        offset = transform.position - playerTransform.position;
     }
 
     // Lerp. Linear Interplolation 선형 보간

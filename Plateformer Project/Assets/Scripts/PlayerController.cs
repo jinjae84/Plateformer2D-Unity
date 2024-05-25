@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     void InitializePlayerStatus()
     {
-        transform.position = startTransform.position;
+        //transform.position = startTransform.position;
         rigidbody2D.velocity = Vector2.zero;
         facingRight = true;
         spriteRenderer.flipX = false;
