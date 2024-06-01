@@ -6,7 +6,7 @@ using UnityEngine.WSA;
 public class GasRoom : MonoBehaviour
 {
     private bool isGasState = false;                     // 자기장에 들어가 있는 상태라면... 플레이어의 체력을 1씩 감소 시킨다.
-
+    public GameObject gasSet;
     public float checkTime = 2f;
     public float Timer = 0;
     private int PlayerHP = 100;
@@ -23,6 +23,11 @@ public class GasRoom : MonoBehaviour
         {
             isGasState = true;                                  // Player가 알아야 할 필요성이 있겠죠. PlayerController <- 다른 클래스에서 나의 클래스를 어떻게 접근할 것인가?
             Debug.Log($"플레이어가 현재 가스 진입 상태 : {isGasState}");
+            gasSet.SetActive(true);
+            if(gasSet.GetComponent<GameObject>() != null)
+            {
+                
+            }
         }        
     }
 
@@ -32,6 +37,7 @@ public class GasRoom : MonoBehaviour
         {
             isGasState = false;
             Debug.Log($"플레이어가 현재 가스 진입 상태 : {isGasState}");
+            gasSet.SetActive(false);
         }
     }
 
@@ -60,6 +66,7 @@ public class GasRoom : MonoBehaviour
             Debug.Log($"플레이어가 가스 상태이므로 플레이어의 체력을 감소 시키고 있다.");
             PlayerHP = PlayerHP - Damage;
             Debug.Log($"플레이어의 현재 체력 : {PlayerHP}");
+
         }
     }
 }
