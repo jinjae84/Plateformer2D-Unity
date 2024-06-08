@@ -11,6 +11,9 @@ public class Trap_Saw : Trap
     public int moveIndex = 0;
     public bool onGoingFoward = true;
     private SpriteRenderer spriteRenderer;
+    public bool IsTrapOn = true;
+    public float stopTime = 1;
+
     private void Start()
     {
 
@@ -24,8 +27,19 @@ public class Trap_Saw : Trap
     private void Update() // 컴퓨터 성능 영향을 받는다.
     {
         anim.SetBool("isWorking", isWorking);
+        if (IsTrapOn == true)
+        {
+            MoveTrap();
+        }
 
-        MoveTrap();
+        
+    }
+    IEnumerator ComoveTrap()
+    {
+        IsTrapOn = false;
+        yield return new WaitForSeconds(stopTime);
+        IsTrapOn = true;
+        
     }
 
     private void MoveTrap()
@@ -36,10 +50,13 @@ public class Trap_Saw : Trap
         // 조건문 - 함정이 목표한 지점까지 도착했는지?
         if(Vector3.Distance(transform.position, movePositions[moveIndex].position) <= 0.1f)
         {
-            if(moveIndex == 0)
+            StartCoroutine(ComoveTrap());
+
+            if (moveIndex == 0)
             {
                 Flip(onGoingFoward);
                 onGoingFoward = true;
+                
             }
             if (onGoingFoward)
                 moveIndex++;
