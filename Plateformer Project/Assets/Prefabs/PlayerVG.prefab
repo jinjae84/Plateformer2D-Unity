@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7029915990801128990}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -14.66, y: -7.15, z: 0}
   m_LocalScale: {x: 0.4, y: 0.375, z: 1}
   m_ConstrainProportionsScale: 0
@@ -162,8 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adf4d9f060e76f4186a7f5839afc266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movespeed: 7
-  JumpForce: 15
+  movespeed: 5
+  JumpForce: 12
   startTransform: {fileID: 0}
   rigidbody2D: {fileID: 6310090336768121159}
   isGrounded: 0

@@ -42,6 +42,8 @@ public class PlayerManager : MonoBehaviour
         
 
         playerCam.playerTransform = player.transform;
+        
+        playerCam.ResetCameraPosition();
         playerCam.Setoffset();
     }
 }

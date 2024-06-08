@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCam : MonoBehaviour
 {
     // 벡터의 연산으로 구현
-
+    public Vector3 startPos;
     Vector3 offset;                       // 카메라와 플레이어의 위치 차이
     public Transform playerTransform;     // 플레이어의 현재 위치 (플레이어가 움직일 때 변경되고, 카메라가 해당 위치를 차이만큼 쫓아감)
     public float fixedYPosition;          // 카메라의 Y 위치를 고정시키기 위한 기준 값
@@ -17,10 +17,17 @@ public class PlayerCam : MonoBehaviour
     {
         //(GameObject) 가져와서 prefab으로 생성된 playerTranform위치를 이 데이터에 넣어줘야 됩니다.
 
+        
+
         // transform = 카메라, 벡터의 합, 빼기 -> A - B : B에서 출발해서 A까지 이동하는 화살표
         offset = transform.position - playerTransform.position;
 
         fixedYPosition = transform.position.y;
+    }
+
+    public void ResetCameraPosition()
+    {
+         transform.position = startPos;
     }
 
     public void Setoffset()
