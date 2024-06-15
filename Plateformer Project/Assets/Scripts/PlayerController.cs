@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     private bool isMove;
 
+    [SerializeField] ParticleController particleController;
+
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -112,6 +114,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleInput()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            particleController.PlayParticle();
+        }
         moveInput = Input.GetAxis("Horizontal");
 
         JumpButton();

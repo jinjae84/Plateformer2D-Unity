@@ -14,6 +14,8 @@ public class PlateformMover : MonoBehaviour
     private Transform playerTransform;
     private Vector3 lastPlatformPosition;
     private Vector3 startPosition;
+    public float pauseDuration = 1f;
+    private bool isPaused = false;
 
     // Start is called before the first frame update
 
@@ -43,10 +45,7 @@ public class PlateformMover : MonoBehaviour
         lastPlatformPosition = transform.position;
     }
 
-    private void ReturnToStartPosition()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
-    }
+    
 
     private void Moveplatform()
     {
@@ -75,7 +74,14 @@ public class PlateformMover : MonoBehaviour
                     movingFoward = true;
                 }
             }
+
+            StartCoroutine(pauseBeforeMoving());
         }
+    }
+
+    private void ReturnToStartPosition()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -94,5 +100,12 @@ public class PlateformMover : MonoBehaviour
             ismoving = false;
             playerTransform = null;
         }
+    }
+
+    private IEnumerator pauseBeforeMoving()
+    {
+        isPaused = true;
+        yield return new WaitForSeconds(pauseDuration);
+        isPaused = false;
     }
 }

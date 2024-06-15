@@ -433,6 +433,7 @@ MonoBehaviour:
   - {fileID: 2071639167}
   speed: 2
   moveIndex: 0
+  pauseDuration: 2
 --- !u!1001 &700365999
 PrefabInstance:
   m_ObjectHideFlags: 0
