@@ -15,10 +15,10 @@ public class Goal : MonoBehaviour
             goalObject.SetActive(true);
             if(goalObject.GetComponent<TMP_Text>() != null )
             {
-                TMP_Text goalText = goalObject.GetComponent<TMP_Text>();
-                goalText.text = "게임 클리어!";
+                
             }
-            
+            TMP_Text goalText = goalObject.GetComponent<TMP_Text>();
+            goalText.text = "게임 클리어!";
         }
     }
 
