@@ -25,6 +25,8 @@ public class ParticleController : MonoBehaviour
 
     public void PlayParticle()
     {
+
+        AudioManager.instance.PlaySFX(6);
         myParticle.Play();
     }
     private void CheckAfterVelocity()
