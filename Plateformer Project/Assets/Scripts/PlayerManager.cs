@@ -38,8 +38,8 @@ public class PlayerManager : MonoBehaviour
         player = Instantiate(PlayerPrefab, spawnTransform.position, Quaternion.identity);
 
         playerController = player.GetComponent<PlayerController>(); // 다른 코드에 접근 하는 방법
-        
-        
+
+
 
         playerCam.playerTransform = player.transform;
         

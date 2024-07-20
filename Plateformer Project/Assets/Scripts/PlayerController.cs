@@ -160,8 +160,13 @@ public class PlayerController : MonoBehaviour
     {
         // 점프 사운드 출력.
         // SFX 배열에 등록된 효과음 출력 숫자 2는 Jump1에 해당함.
-        AudioManager.instance.PlaySFX(2);
         rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JumpForce);
+        if (AudioManager.instance == null)
+        {
+            Debug.LogWarning($"{nameof(AudioManager)}에 instance가 없습니다");
+            return;
+        }
+        AudioManager.instance.PlaySFX(2);
     }
 
     private void CheckWallSliding()

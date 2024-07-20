@@ -25,9 +25,14 @@ public class ParticleController : MonoBehaviour
 
     public void PlayParticle()
     {
-
-        AudioManager.instance.PlaySFX(6);
         myParticle.Play();
+        if (AudioManager.instance == null)
+        {
+            Debug.LogWarning($"{nameof(AudioManager)}에 instance가 없습니다");
+            return;
+        }
+        AudioManager.instance.PlaySFX(6);
+        
     }
     private void CheckAfterVelocity()
     {

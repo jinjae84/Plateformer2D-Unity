@@ -35,6 +35,10 @@ public class MainMenu_UI : MonoBehaviour
         uiMenu.SetActive(true); // 대상 오브젝트를 활성화 시켜라.
     }
 
+    public void ReturnCurrentDifficulty()
+    {
+        GameManager.Instance.ReturnCurrentDifficulty();
+    }
     public void SaveGameDifficulty()
     {
         GameManager.Instance.SaveGameDifficulty();
