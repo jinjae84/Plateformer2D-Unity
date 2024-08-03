@@ -37,13 +37,25 @@ public class PlayerController : MonoBehaviour
     public float wallSlideSpeed = 2f;
     public float wallCheckDistance = 0.6f;
     public LayerMask wallLayer;
+    
+    
+    [Header("HP")]
+    public int currentHp;
+    public int maxHp = 5;
 
-    public Animator animator;
-    private bool isMove;
+    
+    
     
 
     [SerializeField] ParticleController particleController;
+    public Animator animator;
+    private bool isMove;
 
+
+    private void Awake()
+    {
+        currentHp = maxHp;
+    }
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();

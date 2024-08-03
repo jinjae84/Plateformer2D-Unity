@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,12 +36,17 @@ public class MainMenu_UI : MonoBehaviour
         uiMenu.SetActive(true); // 대상 오브젝트를 활성화 시켜라.
     }
 
-    public void ReturnCurrentDifficulty()
+    public void GameExit()
     {
-        GameManager.Instance.ReturnCurrentDifficulty();
+        Application.Quit();
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#endif
     }
-    public void SaveGameDifficulty()
+    public void SetGameLevel(int level)
     {
+        GameManager.Instance.difficulty = level;
         GameManager.Instance.SaveGameDifficulty();
+
     }
 }

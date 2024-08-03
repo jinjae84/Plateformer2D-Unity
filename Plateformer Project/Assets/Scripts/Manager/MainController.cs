@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -20,6 +22,31 @@ public class MainController : MonoBehaviour
     [Header("Level")]
     public TextMeshProUGUI Level;
 
+    public bool isGameStart = false; // 게임이 시작했는지 안했는지 [3..2..1..]
+
+    [Header("Start UI")]
+    public TextMeshProUGUI StartCountText;
+    public GameObject startUIPanel;
+
+    private void Start()
+    {
+        StartCoroutine(Countdown());
+    }
+
+    IEnumerator Countdown()
+    {
+        StartCountText.text = "3";
+        yield return new WaitForSeconds(1f);
+        StartCountText.text = "2";
+        yield return new WaitForSeconds(1f);
+        StartCountText.text = "1";
+        yield return new WaitForSeconds(1f);
+        StartCountText.text = "Start";
+        isGameStart = true;
+        yield return new WaitForSeconds(0.3f);
+        startUIPanel.SetActive(false);
+    }
+
     private void Update()
     {
         score = GameManager.Instance.score;
@@ -29,7 +56,7 @@ public class MainController : MonoBehaviour
     private void UpdateGUIText()
     {
         CurrentScore.text = $"현재 점수 : {GameManager.Instance.score}";
-        Level.text = $"현재 레벨 : {GameManager.Instance.ReturnCurrentDifficulty}";
+        //Level.text = $"현재 레벨 : {GameManager.Instance.ReturnCurrentDifficulty}";
     }
     private void Awake()
     {
