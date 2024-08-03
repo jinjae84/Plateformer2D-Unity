@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 190d33c1a104f8b4d838b9852ba58597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2028359198642341594, guid: 6103438da56c9ae4eae70f86395e7d4b, type: 3}
+  enemyPrefab: {fileID: 2028359198642341594, guid: d096f04d7309b484aa10fa27f923cad7, type: 3}
   warningSign: {fileID: 7023875803229262192, guid: a9ec99b41b24f4c4599a37c3f83a59d7, type: 3}
   spawnCount: 1
   spawnCycle: 0.2
